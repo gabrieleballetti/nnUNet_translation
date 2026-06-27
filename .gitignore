@@ -115,3 +115,4 @@ ENV/
 
 !documentation/assets/scribble_example.png
 nnUNetTrainerMRCT_seque_*.py
+nnunet_data/

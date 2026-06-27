@@ -6,7 +6,6 @@ from batchgenerators.transforms.abstract_transforms import AbstractTransform, Co
 from batchgenerators.transforms.utility_transforms import RemoveLabelTransform, RenameTransform, NumpyToTensor
 
 import numpy as np
-from nnunetv2.training.loss.AFP_multi_mask3 import AFP_multi_mask3
 
 
 from nnunetv2.training.dataloading.data_loader_2d import nnUNetDataLoader2D_MRCT
@@ -36,6 +35,13 @@ class nnUNetTrainerMRCT_AFP_multi_mask3_weights(nnUNetTrainer):
         self.num_val_iterations_per_epoch = 20
         self.num_epochs = 1500 
         # self.batch_size = 1
+        try:
+            from nnunetv2.training.loss.AFP_multi_mask3 import AFP_multi_mask3
+        except ModuleNotFoundError as error:
+            raise ModuleNotFoundError(
+                "nnUNetTrainerMRCT_AFP_multi_mask3_weights requires "
+                "nnunetv2.training.loss.AFP_multi_mask3, which is not present in this checkout."
+            ) from error
         self.AFP_loss = AFP_multi_mask3(net1="Navi_1label", net2= "Imene8", net3="TotalSeg117", net1_weight=3.0, net2_weight= 1.0, net3_weight = 0.5, mae_weight=0.5) 
         self.initial_lr = 1e-3
 
